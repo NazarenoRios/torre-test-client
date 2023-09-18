@@ -1,0 +1,4 @@
+/* Navbar.module.css */
+.hoverBlack:hover > img {
+  filter: brightness(0);
+}

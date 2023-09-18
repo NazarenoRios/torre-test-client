@@ -1,0 +1,3 @@
+.hoverBlack:hover > img {
+  filter: brightness(0);
+}

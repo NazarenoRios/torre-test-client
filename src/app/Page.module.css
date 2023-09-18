@@ -1,0 +1,14 @@
+.pageContainer {
+  background-image: linear-gradient(to bottom, transparent, #27292d),
+    url(../assets/mainbackground.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.svg-icon {
+  fill: #ff0000; /* Color rojo */
+}
+
+.btn:hover .svg-logo path {
+  fill: #000; /* Cambia a color negro cuando el mouse está encima */
+}
