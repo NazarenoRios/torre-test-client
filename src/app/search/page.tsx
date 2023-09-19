@@ -33,6 +33,8 @@ const SearchPage: React.FC = () => {
 
   const { loading, callEndpoint } = useFetchAndLoad();
 
+  const authToken = localStorage.getItem('token');
+
   const fetchUsers = async () => {
     try {
       const authToken = localStorage.getItem('token');
