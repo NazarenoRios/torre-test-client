@@ -39,7 +39,7 @@ export const SaveQueries = (
     call: async (): Promise<AxiosResponse> => {
       return await axios.post(
         `${API_URL}/api/users/search/save`,
-        { searchQuery, UID },
+        { query: searchQuery, userId: UID },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,

@@ -17,11 +17,15 @@ import {
   RemoveFavorite,
 } from '../../services/favorite.services';
 import { User } from '../../interfaces/user.interface';
+import { GetQueries } from '../../services/user.services';
 
 const SearchPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [userFavorites, setUserFavorites] = useState<User[]>([]);
+  const [recentSearches, setRecentSearches] = useState([]);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
+
   const [pageSize] = useState<number>(20);
 
   const searchParams = useSearchParams();
@@ -72,9 +76,29 @@ const SearchPage: React.FC = () => {
     }
   };
 
+  const fetchSearchs = async () => {
+    try {
+      const authToken = localStorage.getItem('token');
+
+      if (authToken) {
+        const res = await callEndpoint(GetQueries(authToken));
+
+        setRecentSearches(res.data.searchHistory);
+      } else {
+        setRecentSearches([]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, [query, currentPage]);
+
+  useEffect(() => {
+    fetchSearchs();
+  }, [authToken]);
 
   const goToNextPage = () => {
     setCurrentPage(currentPage + 1);
@@ -142,98 +166,111 @@ const SearchPage: React.FC = () => {
   };
 
   return (
-    <div className='mt-24 flex flex-wrap justify-center'>
-      {users.map((user) => (
-        <div
-          key={user.username}
-          className='gap mt-12 flex h-96 w-3/4 flex-row flex-wrap rounded-lg bg-[#1c1e21] p-3 antialiased shadow-lg md:h-72 2xl:w-[50vw]'
-        >
-          <div className='flex w-full items-center md:w-1/3'>
-            {user?.picture ? (
-              <Image
-                className='mx-auto rounded-lg antialiased shadow-lg'
-                src={user?.picture}
-                alt='Profile'
-                width={150}
-                height={150}
-              />
-            ) : (
-              <Image
-                className='mx-auto rounded-lg antialiased shadow-lg'
-                src={avatarLogo}
-                alt='Profile'
-                width={150}
-                height={150}
-              />
-            )}
-          </div>
-          <div className='flex w-full flex-row flex-wrap px-3 md:w-2/3'>
-            <div className='relative w-full pt-3 text-center font-semibold text-gray-700 md:pt-0'>
-              <div className='mt-8 text-center text-2xl leading-tight text-white'>
-                {user.name}
-              </div>
-              <div className='text-normal mt-4 cursor-pointer text-center text-gray-300 hover:text-gray-400'>
-                <span className='border-b border-dashed border-gray-500 pb-1'>
-                  {user.professionalHeadline}
-                </span>
-              </div>
-
-              {user.verified ? (
+    <>
+      <div className='mt-4 flex flex-col items-center justify-center'>
+        <h3>Recent searches</h3>
+        <div className='flex flex-row'>
+          {recentSearches.map((searchItem, index) => (
+            <span className='mr-2' key={searchItem._id}>
+              {index !== 0 && ' - '}
+              {searchItem.query}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className='mt-24 flex flex-wrap justify-center'>
+        {users.map((user) => (
+          <div
+            key={user.username}
+            className='gap mt-12 flex h-96 w-3/4 flex-row flex-wrap rounded-lg bg-[#1c1e21] p-3 antialiased shadow-lg md:h-72 2xl:w-[50vw]'
+          >
+            <div className='flex w-full items-center md:w-1/3'>
+              {user?.picture ? (
+                <Image
+                  className='mx-auto rounded-lg antialiased shadow-lg'
+                  src={user?.picture}
+                  alt='Profile'
+                  width={150}
+                  height={150}
+                />
+              ) : (
+                <Image
+                  className='mx-auto rounded-lg antialiased shadow-lg'
+                  src={avatarLogo}
+                  alt='Profile'
+                  width={150}
+                  height={150}
+                />
+              )}
+            </div>
+            <div className='flex w-full flex-row flex-wrap px-3 md:w-2/3'>
+              <div className='relative w-full pt-3 text-center font-semibold text-gray-700 md:pt-0'>
+                <div className='mt-8 text-center text-2xl leading-tight text-white'>
+                  {user.name}
+                </div>
                 <div className='text-normal mt-4 cursor-pointer text-center text-gray-300 hover:text-gray-400'>
                   <span className='border-b border-dashed border-gray-500 pb-1'>
-                    Verified <VerifiedIcon className='text-[#cddc39]' />
+                    {user.professionalHeadline}
                   </span>
                 </div>
-              ) : (
-                ''
-              )}
 
-              <div className='bottom-0 right-0 cursor-pointer pt-3 text-sm text-gray-300 hover:text-gray-400 md:absolute md:pt-0'>
-                {user.isUserInFavorites ? (
-                  <button
-                    onClick={() => toggleFavorite(user)}
-                    className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
-                  >
-                    <FavoriteOutlinedIcon />
-                    unfollow
-                  </button>
+                {user.verified ? (
+                  <div className='text-normal mt-4 cursor-pointer text-center text-gray-300 hover:text-gray-400'>
+                    <span className='border-b border-dashed border-gray-500 pb-1'>
+                      Verified <VerifiedIcon className='text-[#cddc39]' />
+                    </span>
+                  </div>
                 ) : (
-                  <button
-                    onClick={() => toggleFavorite(user)}
-                    className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
-                  >
-                    <FavoriteBorderOutlinedIcon />
-                    follow
-                  </button>
+                  ''
                 )}
 
-                <button className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'>
-                  <Person2OutlinedIcon />
-                  GNOME
-                </button>
+                <div className='bottom-0 right-0 cursor-pointer pt-3 text-sm text-gray-300 hover:text-gray-400 md:absolute md:pt-0'>
+                  {user.isUserInFavorites ? (
+                    <button
+                      onClick={() => toggleFavorite(user)}
+                      className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
+                    >
+                      <FavoriteOutlinedIcon />
+                      unfollow
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => toggleFavorite(user)}
+                      className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
+                    >
+                      <FavoriteBorderOutlinedIcon />
+                      follow
+                    </button>
+                  )}
+
+                  <button className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'>
+                    <Person2OutlinedIcon />
+                    GNOME
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      <div className='mb-12 mt-12 flex w-full justify-center '>
-        <button
-          className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
-          onClick={goToPreviousPage}
-          disabled={currentPage === 1}
-        >
-          PREVIOUS
-        </button>
-        <button
-          className='btn btn-outline border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
-          onClick={goToNextPage}
-          disabled={users.length < pageSize}
-        >
-          NEXT
-        </button>
+        <div className='mb-12 mt-12 flex w-full justify-center '>
+          <button
+            className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
+            onClick={goToPreviousPage}
+            disabled={currentPage === 1}
+          >
+            PREVIOUS
+          </button>
+          <button
+            className='btn btn-outline border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
+            onClick={goToNextPage}
+            disabled={users.length < pageSize}
+          >
+            NEXT
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
