@@ -171,7 +171,7 @@ const SearchPage: React.FC = () => {
     <>
       <div className='mt-4 flex flex-col items-center justify-center'>
         {recentSearches.length > 0 && (
-          <h3 className='text-md'>Recent searches</h3>
+          <h3 className='text-base'>Recent searches</h3>
         )}
         <div className='flex flex-row'>
           {recentSearches.map((searchItem, index) => (
