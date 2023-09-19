@@ -229,22 +229,26 @@ const SearchPage: React.FC = () => {
                 )}
 
                 <div className='bottom-0 right-0 cursor-pointer pt-3 text-sm text-gray-300 hover:text-gray-400 md:absolute md:pt-0'>
-                  {user.isUserInFavorites ? (
-                    <button
-                      onClick={() => toggleFavorite(user)}
-                      className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
-                    >
-                      <FavoriteOutlinedIcon />
-                      unfollow
-                    </button>
+                  {authToken ? (
+                    user.isUserInFavorites ? (
+                      <button
+                        onClick={() => toggleFavorite(user)}
+                        className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
+                      >
+                        <FavoriteOutlinedIcon />
+                        unfollow
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => toggleFavorite(user)}
+                        className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
+                      >
+                        <FavoriteBorderOutlinedIcon />
+                        follow
+                      </button>
+                    )
                   ) : (
-                    <button
-                      onClick={() => toggleFavorite(user)}
-                      className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'
-                    >
-                      <FavoriteBorderOutlinedIcon />
-                      follow
-                    </button>
+                    ''
                   )}
 
                   <button className='btn btn-outline mr-3 border-[#cddc39] text-[#cddc39] hover:bg-[#cddc39]'>
