@@ -1509,6 +1509,9 @@ html {
 .ml-6 {
   margin-left: 1.5rem;
 }
+.mr-2 {
+  margin-right: 0.5rem;
+}
 .mr-3 {
   margin-right: 0.75rem;
 }
@@ -1545,9 +1548,6 @@ html {
 .h-screen {
   height: 100vh;
 }
-.h-full {
-  height: 100%;
-}
 .w-3\/4 {
   width: 75%;
 }
@@ -1565,6 +1565,9 @@ html {
 }
 .flex-row {
   flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
 }
 .flex-wrap {
   flex-wrap: wrap;
@@ -1645,6 +1648,10 @@ html {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 .text-sm {
   font-size: 0.875rem;
@@ -1761,6 +1768,10 @@ body {
 
   .\32xl\:w-\[50vw\] {
     width: 50vw;
+  }
+
+  .\32xl\:w-\[51vw\] {
+    width: 51vw;
   }
 }
 

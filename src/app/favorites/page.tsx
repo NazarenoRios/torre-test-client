@@ -69,7 +69,7 @@ const FavoritesPage: React.FC = () => {
       {favorites.map((favorite) => (
         <div
           key={favorite.username}
-          className='gap mt-12 flex h-96 w-3/4 flex-row flex-wrap rounded-lg bg-[#1c1e21] p-3 antialiased shadow-lg md:h-72 2xl:w-[50vw]'
+          className='gap mt-12 flex h-96 w-3/4 flex-row flex-wrap rounded-lg bg-[#1c1e21] p-3 antialiased shadow-lg md:h-72 2xl:w-[51vw]'
         >
           <div className='flex w-full items-center md:w-1/3'>
             {favorite?.picture ? (
