@@ -113,7 +113,7 @@ export default function Register() {
   };
 
   return (
-    <div className='flex h-[94.4vh] items-center justify-center bg-[#131313] py-12 sm:px-6 lg:px-8'>
+    <div className='flex h-screen items-center justify-center bg-[#131313] py-12 sm:px-6 lg:px-8'>
       <div className='w-full max-w-md space-y-8'>
         <div className='text-center'>
           <h2 className='mt-6 text-3xl font-extrabold text-white'>Register</h2>
