@@ -121,26 +121,18 @@ const Navbar = () => {
         {pathname.includes('/signin') || pathname.includes('/register') ? (
           ''
         ) : (
-          <Autocomplete
-            id='free-solo-demo'
-            freeSolo
-            options={recentSearches.map((searchItem) => searchItem.query)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                id='outlined-basic'
-                label='Search'
-                variant='outlined'
-                sx={{ width: '30vw' }}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSearch();
-                  }
-                }}
-              />
-            )}
+          <TextField
+            id='outlined-basic'
+            label='Search'
+            variant='outlined'
+            sx={{ width: '30vw' }}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch();
+              }
+            }}
           />
         )}
       </div>
